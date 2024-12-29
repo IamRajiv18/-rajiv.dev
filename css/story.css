@@ -1,0 +1,65 @@
+.imgElement{
+  width: 100%;
+}
+.left{
+    transform: scale(-1, 1);
+}
+button {
+    border: none;
+    color: #fff;
+    padding: 10px 11px;
+    background: linear-gradient(90deg, #a956dc, #552799);
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    margin: 0 10px;
+    transition: all 0.4s ease;
+    display: inline-block;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  /* LinkedIn Button */
+  .linkedin {
+    background-color: #0077b5;
+  }
+
+  .linkedin:hover {
+    background-color: #005582;
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 119, 181, 0.4);
+  }
+
+  /* Twitter Button */
+  .twitter {
+    background-color: #1da1f2;
+  }
+
+  .twitter:hover {
+    background-color: #0d8dd9;
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(29, 161, 242, 0.4);
+  }
+
+  /* Instagram Button */
+  .instagram {
+    background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  }
+
+  .instagram:hover {
+    background: linear-gradient(135deg, #bc1888, #cc2366, #dc2743, #e6683c, #f09433);
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(220, 39, 67, 0.4);
+  }
+  .certification-section{
+    margin-top: 50px;
+  }
+  .certification{
+    padding: 10px;
+
+  }
+
+  .certification:hover{
+    background: linear-gradient(90deg, #6a11cb, #2575fc); /* Purple to blue gradient */
+    border-radius: 5px;
+  }

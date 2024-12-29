@@ -1,0 +1,189 @@
+.left{
+    transform: scale(-1, 1);
+}
+  /* Timeline */
+  .timeline {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    padding-left: 20px;
+}
+
+.timeline:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 15px;
+    height: 100%;
+    width: 2px;
+    background: #444;
+}
+
+/* Timeline Items */
+.timeline-item {
+    margin: 20px 0;
+    position: relative;
+    padding-left: 20px;
+}
+
+.timeline-item:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10px;
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border: 2px solid #444;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.timeline-date {
+    font-size: 14px;
+    color: #aaa;
+    margin-bottom: 8px;
+    margin-left: 15px;
+}
+
+.timeline-content {
+    background: #222;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.timeline-content .tag {
+    display: inline-block;
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.tag.achievement {
+    background: #9c27b0;
+    color: #fff;
+}
+
+.tag.interview {
+    background: #ff9800;
+    color: #fff;
+}
+
+.tag.release {
+    background: #e91e63;
+    color: #fff;
+}
+
+.timeline-content h2 {
+    margin: 10px 0;
+    font-size: 18px;
+}
+
+.timeline-content p {
+    margin: 10px 0 15px;
+}
+
+.timeline-image {
+    max-width: 465px;
+    border-radius: 8px;
+    margin-top: 10px;
+    display: block;
+    max-height: 300px;
+
+}
+/* Timeline Content */
+.timeline-content {
+background: transparent; /* Transparent by default */
+border-radius: 8px;
+padding: 15px;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+position: relative;
+transition: background 0.3s ease, transform 0.3s ease;
+}
+
+/* Cool Gradient Background on Hover */
+.timeline-content:hover {
+background: linear-gradient(145deg, #6a11cb, #2575fc); /* Purple to blue gradient */
+transform: scale(1.03); /* Slight scaling for emphasis */
+}
+/* Buttons Styling */
+#timelineButtons {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+  
+    justify-content: center;
+}
+
+#timelineButtons button {
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    background-color: #444;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#timelineButtons button:hover {
+    background-color: #2575fc;
+}
+
+/* Timelines */
+.timeline {
+    margin-bottom: 20px;
+}
+
+.timeline-item {
+    margin-bottom: 10px;
+}
+.timelineNamespace {
+    font-size: 2.5rem; /* Large heading size */
+    font-weight: bold; /* Bold for emphasis */
+    text-align: center; /* Centered alignment */
+    color: #ffffff; /* Bright color for text */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
+    margin-bottom: 20px; /* Space below heading */
+    position: relative; /* Required for decorative elements */
+}
+
+/* Add a gradient underline */
+.timelineNamespace:after {
+    content: ''; /* Empty content for the underline */
+    display: block;
+    width: 50%; /* Half-width underline */
+    height: 4px; /* Thickness of the underline */
+    margin: 10px auto 0; /* Centered underline with spacing */
+    background: linear-gradient(90deg, #6a11cb, #2575fc); /* Purple to blue gradient */
+    border-radius: 2px; /* Rounded edges for the underline */
+}
+
+/* Optional: Add a subtle hover effect for interactivity */
+.timelineNamespace:hover {
+    color: #ff9800; /* Change color on hover */
+    transition: color 0.3s ease; /* Smooth transition for color */
+}
+/* Responsive Design */
+@media (max-width: 600px) {
+    .timeline {
+        padding-left: 10px;
+    }
+
+    .timeline:before {
+        left: 10px;
+    }
+
+    .timeline-item:before {
+        left: 5px;
+    }
+
+    .timeline-content {
+        padding: 10px;
+    }
+}
