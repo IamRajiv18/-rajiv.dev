@@ -33,9 +33,10 @@
 
       const textArray = [
       "I am a Web Developer.",
-      "I am a Designer.",
+      "I am a Software Developer.",
       "I am a Freelancer.",
-      "I love to code.",
+      "I am a Designer.",
+      "passionate professional programmer.",
     ];
     let index = 0;
     let charIndex = 0;
