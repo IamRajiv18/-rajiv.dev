@@ -882,19 +882,27 @@ document.addEventListener('DOMContentLoaded', function() {
   createUIElements();
   
   // Initialize particles background
-  initParticles();
+  setTimeout(initParticles, 500); // Give scripts time to load
   
   // Load timeline with animation
   setTimeout(() => {
-    document.querySelector('.loader-container').classList.add('hidden');
-    setTimeout(() => {
-      document.querySelector('.loader-container').remove();
-      animateTimelineItems();
-    }, 800);
+    const loaderContainer = document.querySelector('.loader-container');
+    if (loaderContainer) {
+      loaderContainer.classList.add('hidden');
+      setTimeout(() => {
+        if (loaderContainer.parentNode) {
+          loaderContainer.parentNode.removeChild(loaderContainer);
+        }
+        animateTimelineItems();
+      }, 800);
+    }
   }, 2000);
   
   // Setup event listeners and interactions
   setupInteractions();
+  
+  // Set initial theme
+  setThemeVariables(true); // Initialize with dark theme
 });
 
 function addExternalResources() {
@@ -962,9 +970,12 @@ function createUIElements() {
   `;
   
   // Add data attributes to headings for glow effect
-  document.querySelectorAll('.timeline h3').forEach(heading => {
-    heading.setAttribute('data-text', heading.textContent);
-  });
+  const timelineHeadings = document.querySelectorAll('.timeline h3');
+  if (timelineHeadings && timelineHeadings.length > 0) {
+    timelineHeadings.forEach(heading => {
+      heading.setAttribute('data-text', heading.textContent);
+    });
+  }
   
   // Create theme toggle button
   const themeToggle = document.createElement('div');
@@ -972,129 +983,133 @@ function createUIElements() {
   themeToggle.innerHTML = '<i class="fas fa-bolt"></i>';
   
   // Insert the controls before the main timeline
-  document.querySelector('.allTimeline').parentNode.insertBefore(controlsDiv, document.querySelector('.allTimeline'));
+  const timelineContainer = document.querySelector('.allTimeline');
+  if (timelineContainer && timelineContainer.parentNode) {
+    timelineContainer.parentNode.insertBefore(controlsDiv, timelineContainer);
+  }
+  
   // Add the theme toggle
   document.body.appendChild(themeToggle);
 }
 
 function initParticles() {
-  // Wait for the particles.js script to load
-  const particlesCheck = setInterval(() => {
-    if (window.particlesJS) {
-      clearInterval(particlesCheck);
-      
-      // Configure and initialize particles
-      particlesJS('particles-js', {
-        "particles": {
-          "number": {
-            "value": 80,
-            "density": {
-              "enable": true,
-              "value_area": 800
-            }
-          },
-          "color": {
-            "value": "#6e00ff"
-          },
-          "shape": {
-            "type": "circle",
-            "stroke": {
-              "width": 0,
-              "color": "#000000"
-            },
-            "polygon": {
-              "nb_sides": 5
-            }
-          },
-          "opacity": {
-            "value": 0.3,
-            "random": true,
-            "anim": {
-              "enable": true,
-              "speed": 1,
-              "opacity_min": 0.1,
-              "sync": false
-            }
-          },
-          "size": {
-            "value": 3,
-            "random": true,
-            "anim": {
-              "enable": true,
-              "speed": 2,
-              "size_min": 0.1,
-              "sync": false
-            }
-          },
+  // Check if particles.js is loaded
+  if (typeof particlesJS === 'undefined') {
+    setTimeout(initParticles, 100);
+    return;
+  }
+  
+  // Configure and initialize particles
+  particlesJS('particles-js', {
+    "particles": {
+      "number": {
+        "value": 80,
+        "density": {
+          "enable": true,
+          "value_area": 800
+        }
+      },
+      "color": {
+        "value": "#6e00ff"
+      },
+      "shape": {
+        "type": "circle",
+        "stroke": {
+          "width": 0,
+          "color": "#000000"
+        },
+        "polygon": {
+          "nb_sides": 5
+        }
+      },
+      "opacity": {
+        "value": 0.3,
+        "random": true,
+        "anim": {
+          "enable": true,
+          "speed": 1,
+          "opacity_min": 0.1,
+          "sync": false
+        }
+      },
+      "size": {
+        "value": 3,
+        "random": true,
+        "anim": {
+          "enable": true,
+          "speed": 2,
+          "size_min": 0.1,
+          "sync": false
+        }
+      },
+      "line_linked": {
+        "enable": true,
+        "distance": 150,
+        "color": "#00d9ff",
+        "opacity": 0.2,
+        "width": 1
+      },
+      "move": {
+        "enable": true,
+        "speed": 1,
+        "direction": "none",
+        "random": true,
+        "straight": false,
+        "out_mode": "out",
+        "bounce": false,
+        "attract": {
+          "enable": true,
+          "rotateX": 600,
+          "rotateY": 1200
+        }
+      }
+    },
+    "interactivity": {
+      "detect_on": "canvas",
+      "events": {
+        "onhover": {
+          "enable": true,
+          "mode": "grab"
+        },
+        "onclick": {
+          "enable": true,
+          "mode": "push"
+        },
+        "resize": true
+      },
+      "modes": {
+        "grab": {
+          "distance": 140,
           "line_linked": {
-            "enable": true,
-            "distance": 150,
-            "color": "#00d9ff",
-            "opacity": 0.2,
-            "width": 1
-          },
-          "move": {
-            "enable": true,
-            "speed": 1,
-            "direction": "none",
-            "random": true,
-            "straight": false,
-            "out_mode": "out",
-            "bounce": false,
-            "attract": {
-              "enable": true,
-              "rotateX": 600,
-              "rotateY": 1200
-            }
+            "opacity": 0.4
           }
         },
-        "interactivity": {
-          "detect_on": "canvas",
-          "events": {
-            "onhover": {
-              "enable": true,
-              "mode": "grab"
-            },
-            "onclick": {
-              "enable": true,
-              "mode": "push"
-            },
-            "resize": true
-          },
-          "modes": {
-            "grab": {
-              "distance": 140,
-              "line_linked": {
-                "opacity": 0.4
-              }
-            },
-            "bubble": {
-              "distance": 400,
-              "size": 40,
-              "duration": 2,
-              "opacity": 8,
-              "speed": 3
-            },
-            "repulse": {
-              "distance": 200,
-              "duration": 0.4
-            },
-            "push": {
-              "particles_nb": 4
-            },
-            "remove": {
-              "particles_nb": 2
-            }
-          }
+        "bubble": {
+          "distance": 400,
+          "size": 40,
+          "duration": 2,
+          "opacity": 8,
+          "speed": 3
         },
-        "retina_detect": true
-      });
-    }
-  }, 100);
+        "repulse": {
+          "distance": 200,
+          "duration": 0.4
+        },
+        "push": {
+          "particles_nb": 4
+        },
+        "remove": {
+          "particles_nb": 2
+        }
+      }
+    },
+    "retina_detect": true
+  });
 }
 
 function animateTimelineItems() {
   const timelineItems = document.querySelectorAll('.timeline-item');
+  if (!timelineItems || timelineItems.length === 0) return;
   
   // Intersection Observer for timeline items
   const observer = new IntersectionObserver((entries) => {
@@ -1103,14 +1118,17 @@ function animateTimelineItems() {
         entry.target.classList.add('visible');
         // Apply 3D tilt effect with VanillaTilt if available
         if (window.VanillaTilt && !entry.target.hasAttribute('data-tilt-applied')) {
-          VanillaTilt.init(entry.target.querySelector('.timeline-content'), {
-            max: 5,
-            speed: 400,
-            glare: true,
-            "max-glare": 0.2,
-            gyroscope: true
-          });
-          entry.target.setAttribute('data-tilt-applied', 'true');
+          const contentElement = entry.target.querySelector('.timeline-content');
+          if (contentElement) {
+            VanillaTilt.init(contentElement, {
+              max: 5,
+              speed: 400,
+              glare: true,
+              "max-glare": 0.2,
+              gyroscope: true
+            });
+            entry.target.setAttribute('data-tilt-applied', 'true');
+          }
         }
       }
     });
@@ -1124,66 +1142,69 @@ function animateTimelineItems() {
 
 function setupInteractions() {
   // Scroll progress indicator
-  window.addEventListener('scroll', () => {
-    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const scrollPercentage = (scrollTop / scrollHeight) * 100;
-    document.querySelector('.scroll-progress').style.width = scrollPercentage + '%';
-  });
+  const scrollProgressElement = document.querySelector('.scroll-progress');
+  if (scrollProgressElement) {
+    window.addEventListener('scroll', () => {
+      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrollPercentage = (scrollTop / scrollHeight) * 100;
+      scrollProgressElement.style.width = scrollPercentage + '%';
+    });
+  }
   
   // Timeline filter controls
   const controlButtons = document.querySelectorAll('.timeline-control-btn');
   const timelineSections = document.querySelectorAll('.allTimeline, .eventTimeline, .progressTimeline');
   
-  controlButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      // Remove active class from all buttons
-      controlButtons.forEach(btn => btn.classList.remove('active'));
-      
-      // Add active class to clicked button
-      button.classList.add('active');
-      
-      // Show/hide appropriate timeline
-      const timelineToShow = button.getAttribute('data-timeline');
-      timelineSections.forEach(section => {
-        if (section.classList.contains(timelineToShow)) {
-          section.style.display = 'block';
-          // Animate items in the visible timeline after a short delay
-          setTimeout(() => {
-            animateTimelineItems();
-          }, 100);
-        } else {
-          section.style.display = 'none';
-        }
+  if (controlButtons && controlButtons.length > 0 && timelineSections && timelineSections.length > 0) {
+    controlButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Remove active class from all buttons
+        controlButtons.forEach(btn => btn.classList.remove('active'));
+        
+        // Add active class to clicked button
+        button.classList.add('active');
+        
+        // Show/hide appropriate timeline
+        const timelineToShow = button.getAttribute('data-timeline');
+        timelineSections.forEach(section => {
+          if (section.classList.contains(timelineToShow)) {
+            section.style.display = 'block';
+            // Animate items in the visible timeline after a short delay
+            setTimeout(() => {
+              animateTimelineItems();
+            }, 100);
+          } else {
+            section.style.display = 'none';
+          }
+        });
       });
     });
-  });
+  }
   
   // Theme toggle
   let isDarkTheme = true;
   const themeToggle = document.querySelector('.theme-toggle');
-  const root = document.documentElement;
   
-  // Set initial CSS variables
-  setThemeVariables(isDarkTheme);
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      isDarkTheme = !isDarkTheme;
+      setThemeVariables(isDarkTheme);
+      
+      // Animate the toggle button
+      themeToggle.classList.add('rotating');
+      setTimeout(() => {
+        themeToggle.classList.remove('rotating');
+      }, 600);
+      
+      // Update the icon
+      themeToggle.innerHTML = isDarkTheme ? 
+        '<i class="fas fa-bolt"></i>' : 
+        '<i class="fas fa-sun"></i>';
+    });
+  }
   
-  themeToggle.addEventListener('click', () => {
-    isDarkTheme = !isDarkTheme;
-    setThemeVariables(isDarkTheme);
-    
-    // Animate the toggle button
-    themeToggle.classList.add('rotating');
-    setTimeout(() => {
-      themeToggle.classList.remove('rotating');
-    }, 600);
-    
-    // Update the icon
-    themeToggle.innerHTML = isDarkTheme ? 
-      '<i class="fas fa-bolt"></i>' : 
-      '<i class="fas fa-sun"></i>';
-  });
-  
-  // Add this style for rotating animation
+  // Add rotating animation style
   const style = document.createElement('style');
   style.textContent = `
     @keyframes rotate {
@@ -1224,25 +1245,6 @@ function setThemeVariables(isDark) {
   root.style.setProperty('--glow', '0 0 15px rgba(110, 0, 255, 0.5)');
   root.style.setProperty('--glow-strong', '0 0 25px rgba(110, 0, 255, 0.7)');
 }
-
-// Apply CSS variables on initial load
-document.addEventListener('DOMContentLoaded', () => {
-  // Add CSS variables to the root element
-  const root = document.documentElement;
-  
-  root.style.setProperty('--primary', '#6e00ff');
-  root.style.setProperty('--secondary', '#00d9ff');
-  root.style.setProperty('--accent', '#ff00e5');
-  root.style.setProperty('--darker', 'rgba(6, 8, 24, 0.95)');
-  root.style.setProperty('--dark', 'rgba(10, 12, 32, 0.9)');
-  root.style.setProperty('--card', 'rgba(20, 22, 42, 0.6)');
-  root.style.setProperty('--card-hover', 'rgba(25, 28, 52, 0.7)');
-  root.style.setProperty('--light', '#ffffff');
-  root.style.setProperty('--shadow', '0 15px 25px rgba(0, 0, 0, 0.2)');
-  root.style.setProperty('--glow', '0 0 15px rgba(110, 0, 255, 0.5)');
-  root.style.setProperty('--glow-strong', '0 0 25px rgba(110, 0, 255, 0.7)');
-  root.style.setProperty('--glass-border', 'rgba(255, 255, 255, 0.05)');
-});
 </script>
 
     
