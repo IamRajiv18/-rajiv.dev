@@ -873,7 +873,7 @@ Participated in the SoarX JMI Hackathon at JMI University, where I developed "Sa
 
 <script>
 
-  // Futuristic Timeline Enhancement JavaScript
+// Futuristic Timeline Enhancement JavaScript
 document.addEventListener('DOMContentLoaded', function() {
   // Add required external resources
   addExternalResources();
@@ -881,7 +881,8 @@ document.addEventListener('DOMContentLoaded', function() {
   // Create UI elements
   createUIElements();
   
-
+  // Initialize particles background
+  initParticles();
   
   // Load timeline with animation
   setTimeout(() => {
@@ -896,7 +897,29 @@ document.addEventListener('DOMContentLoaded', function() {
   setupInteractions();
 });
 
-
+function addExternalResources() {
+  // Add Google Font - Outfit
+  const fontLink = document.createElement('link');
+  fontLink.rel = 'stylesheet';
+  fontLink.href = 'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap';
+  document.head.appendChild(fontLink);
+  
+  // Add Font Awesome
+  const faLink = document.createElement('link');
+  faLink.rel = 'stylesheet';
+  faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+  document.head.appendChild(faLink);
+  
+  // Add Vanilla Tilt.js
+  const tiltScript = document.createElement('script');
+  tiltScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js';
+  document.head.appendChild(tiltScript);
+  
+  // Add Particles.js
+  const particlesScript = document.createElement('script');
+  particlesScript.src = 'https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js';
+  document.head.appendChild(particlesScript);
+}
 
 function createUIElements() {
   // Create loading screen
@@ -917,7 +940,11 @@ function createUIElements() {
   scrollProgress.className = 'scroll-progress';
   document.body.appendChild(scrollProgress);
   
- 
+  // Create particles background container
+  const particlesContainer = document.createElement('div');
+  particlesContainer.id = 'particles-js';
+  particlesContainer.className = 'particles-overlay';
+  document.body.appendChild(particlesContainer);
   
   // Create timeline controls with cyberpunk/futuristic style
   const controlsDiv = document.createElement('div');
@@ -950,6 +977,121 @@ function createUIElements() {
   document.body.appendChild(themeToggle);
 }
 
+function initParticles() {
+  // Wait for the particles.js script to load
+  const particlesCheck = setInterval(() => {
+    if (window.particlesJS) {
+      clearInterval(particlesCheck);
+      
+      // Configure and initialize particles
+      particlesJS('particles-js', {
+        "particles": {
+          "number": {
+            "value": 80,
+            "density": {
+              "enable": true,
+              "value_area": 800
+            }
+          },
+          "color": {
+            "value": "#6e00ff"
+          },
+          "shape": {
+            "type": "circle",
+            "stroke": {
+              "width": 0,
+              "color": "#000000"
+            },
+            "polygon": {
+              "nb_sides": 5
+            }
+          },
+          "opacity": {
+            "value": 0.3,
+            "random": true,
+            "anim": {
+              "enable": true,
+              "speed": 1,
+              "opacity_min": 0.1,
+              "sync": false
+            }
+          },
+          "size": {
+            "value": 3,
+            "random": true,
+            "anim": {
+              "enable": true,
+              "speed": 2,
+              "size_min": 0.1,
+              "sync": false
+            }
+          },
+          "line_linked": {
+            "enable": true,
+            "distance": 150,
+            "color": "#00d9ff",
+            "opacity": 0.2,
+            "width": 1
+          },
+          "move": {
+            "enable": true,
+            "speed": 1,
+            "direction": "none",
+            "random": true,
+            "straight": false,
+            "out_mode": "out",
+            "bounce": false,
+            "attract": {
+              "enable": true,
+              "rotateX": 600,
+              "rotateY": 1200
+            }
+          }
+        },
+        "interactivity": {
+          "detect_on": "canvas",
+          "events": {
+            "onhover": {
+              "enable": true,
+              "mode": "grab"
+            },
+            "onclick": {
+              "enable": true,
+              "mode": "push"
+            },
+            "resize": true
+          },
+          "modes": {
+            "grab": {
+              "distance": 140,
+              "line_linked": {
+                "opacity": 0.4
+              }
+            },
+            "bubble": {
+              "distance": 400,
+              "size": 40,
+              "duration": 2,
+              "opacity": 8,
+              "speed": 3
+            },
+            "repulse": {
+              "distance": 200,
+              "duration": 0.4
+            },
+            "push": {
+              "particles_nb": 4
+            },
+            "remove": {
+              "particles_nb": 2
+            }
+          }
+        },
+        "retina_detect": true
+      });
+    }
+  }, 100);
+}
 
 function animateTimelineItems() {
   const timelineItems = document.querySelectorAll('.timeline-item');
@@ -1017,9 +1159,90 @@ function setupInteractions() {
     });
   });
   
-
+  // Theme toggle
+  let isDarkTheme = true;
+  const themeToggle = document.querySelector('.theme-toggle');
+  const root = document.documentElement;
+  
+  // Set initial CSS variables
+  setThemeVariables(isDarkTheme);
+  
+  themeToggle.addEventListener('click', () => {
+    isDarkTheme = !isDarkTheme;
+    setThemeVariables(isDarkTheme);
+    
+    // Animate the toggle button
+    themeToggle.classList.add('rotating');
+    setTimeout(() => {
+      themeToggle.classList.remove('rotating');
+    }, 600);
+    
+    // Update the icon
+    themeToggle.innerHTML = isDarkTheme ? 
+      '<i class="fas fa-bolt"></i>' : 
+      '<i class="fas fa-sun"></i>';
+  });
+  
+  // Add this style for rotating animation
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .rotating {
+      animation: rotate 0.6s ease-in-out;
+    }
+  `;
+  document.head.appendChild(style);
 }
 
+function setThemeVariables(isDark) {
+  const root = document.documentElement;
+  
+  if (isDark) {
+    root.style.setProperty('--darker', 'rgba(6, 8, 24, 0.95)');
+    root.style.setProperty('--dark', 'rgba(10, 12, 32, 0.9)');
+    root.style.setProperty('--card', 'rgba(20, 22, 42, 0.6)');
+    root.style.setProperty('--card-hover', 'rgba(25, 28, 52, 0.7)');
+    root.style.setProperty('--light', '#ffffff');
+    root.style.setProperty('--glass-border', 'rgba(255, 255, 255, 0.05)');
+  } else {
+    root.style.setProperty('--darker', 'rgba(240, 245, 255, 0.95)');
+    root.style.setProperty('--dark', 'rgba(220, 230, 250, 0.9)');
+    root.style.setProperty('--card', 'rgba(255, 255, 255, 0.6)');
+    root.style.setProperty('--card-hover', 'rgba(255, 255, 255, 0.7)');
+    root.style.setProperty('--light', '#212130');
+    root.style.setProperty('--glass-border', 'rgba(0, 0, 0, 0.05)');
+  }
+  
+  // Common color properties for both themes
+  root.style.setProperty('--primary', '#6e00ff');
+  root.style.setProperty('--secondary', '#00d9ff');
+  root.style.setProperty('--accent', '#ff00e5');
+  root.style.setProperty('--shadow', '0 15px 25px rgba(0, 0, 0, 0.2)');
+  root.style.setProperty('--glow', '0 0 15px rgba(110, 0, 255, 0.5)');
+  root.style.setProperty('--glow-strong', '0 0 25px rgba(110, 0, 255, 0.7)');
+}
+
+// Apply CSS variables on initial load
+document.addEventListener('DOMContentLoaded', () => {
+  // Add CSS variables to the root element
+  const root = document.documentElement;
+  
+  root.style.setProperty('--primary', '#6e00ff');
+  root.style.setProperty('--secondary', '#00d9ff');
+  root.style.setProperty('--accent', '#ff00e5');
+  root.style.setProperty('--darker', 'rgba(6, 8, 24, 0.95)');
+  root.style.setProperty('--dark', 'rgba(10, 12, 32, 0.9)');
+  root.style.setProperty('--card', 'rgba(20, 22, 42, 0.6)');
+  root.style.setProperty('--card-hover', 'rgba(25, 28, 52, 0.7)');
+  root.style.setProperty('--light', '#ffffff');
+  root.style.setProperty('--shadow', '0 15px 25px rgba(0, 0, 0, 0.2)');
+  root.style.setProperty('--glow', '0 0 15px rgba(110, 0, 255, 0.5)');
+  root.style.setProperty('--glow-strong', '0 0 25px rgba(110, 0, 255, 0.7)');
+  root.style.setProperty('--glass-border', 'rgba(255, 255, 255, 0.05)');
+});
 </script>
 
     
